@@ -32,7 +32,7 @@ def get_prompt(text):
 
 # Sample 200 test notes
 random.seed(42)
-sampled = random.sample(test_texts, 200)
+sampled = random.sample(test_texts, 1000)
 prompts = [get_prompt(t) for t in sampled]
 
 # Load model
