@@ -43,6 +43,7 @@ def build_prompt(examples):
                 "You will be shown real examples of discharge summaries and must generate a new one "
                 "that follows the same structure, style, clinical terminology, and level of detail. "
                 "Use <PHI> as a placeholder wherever patient-identifiable information would appear."
+                "Do not use markdown formatting such as ** or ### — use plain text only."
             )
         }
     ]
@@ -66,6 +67,7 @@ def build_prompt(examples):
             "It should be realistic and clinically plausible, with appropriate sections including "
             "Chief Complaint, History of Present Illness, Past Medical History, Physical Exam, "
             "Pertinent Results, Brief Hospital Course, Discharge Medications, and Discharge Instructions."
+            "Do not use markdown formatting such as ** or ### — use plain text only."
         )
     })
 
