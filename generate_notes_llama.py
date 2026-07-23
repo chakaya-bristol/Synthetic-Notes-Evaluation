@@ -6,22 +6,22 @@ from pathlib import Path
 
 # Paths
 MODEL_PATH = "/projects/b5bg/models/llama-3.1-8b-instruct"
-TEST_PATH = "/projects/b5bg/processed/test.txt"
+TRAIN_PATH = "/projects/b5bg/processed/train.txt"
 OUTPUT_PATH = "/projects/b5bg/processed/synthetic_notes_llama.csv"
 
 N_GENERATE = 1000
 N_EXAMPLES = 3
 
-# Load test notes
-print("Loading test notes...")
-with open(TEST_PATH, "r", encoding="utf-8") as f:
-    test_texts = f.read().split("\n<|endoftext|>\n")
-test_texts = [t.strip() for t in test_texts if t.strip()]
-print(f"Loaded {len(test_texts)} test notes")
+# Load train notes
+print("Loading train notes...")
+with open(TRAIN_PATH, "r", encoding="utf-8") as f:
+    train_texts = f.read().split("\n<|endoftext|>\n")
+train_texts = [t.strip() for t in train_texts if t.strip()]
+print(f"Loaded {len(train_texts)} train notes")
 
 # Sample 200 notes as few-shot example pool
 random.seed(42)
-example_pool = random.sample(test_texts, 200)
+example_pool = random.sample(train_texts, 200)
 
 # Load model
 print("Loading model...")
