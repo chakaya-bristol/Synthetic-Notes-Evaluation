@@ -1,4 +1,5 @@
 import os
+import re
 import random
 import numpy as np
 import pandas as pd
@@ -12,6 +13,8 @@ from transformers import (
     TrainingArguments, Trainer
 )
 
+os.environ["TRANSFORMERS_ALLOW_UNSAFE_DESERIALIZATION"] = "1"
+
 MODEL_NAME = "emilyalsentzer/Bio_ClinicalBERT"
 PROC = Path("/projects/b5bg/processed")
 OUT = Path("/projects/b5bg/results")
@@ -21,7 +24,19 @@ N_REAL = 1000
 MAX_LEN = 512
 SEED = 42
 
-# Load real notes 
+# ── Same structure-stripping as the XGBoost pipeline (keep the two in sync) ──
+def strip_structure(text):
+    text = str(text)
+    text = text.replace("<PHI>", " ")
+    header_pattern = (
+        r'(?im)^\s*(Name|Unit No|Admission Date|Discharge Date|Date of Birth|Sex|'
+        r'Service|Attending|Allergies|Followup Instructions|Discharge Disposition):.*$'
+    )
+    text = re.sub(header_pattern, ' ', text)
+    text = re.sub(r'\d{1,2}/\d{1,2}/\d{2,4}', ' ', text)
+    return text
+
+# Load real notes
 with open(PROC / "test.txt", "r", encoding="utf-8") as f:
     real_texts = f.read().split("\n<|endoftext|>\n")
 real_texts = [t.strip() for t in real_texts if t.strip()]
@@ -34,13 +49,14 @@ GENERATORS = {
 }
 
 def build_splits(synthetic_csv):
-    """Same construction and split as the XGBoost pipeline."""
+    """Same construction and split as the XGBoost pipeline, with structure stripped."""
     syn_df = pd.read_csv(synthetic_csv)
     random.seed(SEED)
-    sampled_real = random.sample(real_texts, N_REAL)
+    sampled_real = [strip_structure(t) for t in random.sample(real_texts, N_REAL)]
+    syn_texts = [strip_structure(t) for t in syn_df["generated_text"].astype(str).tolist()]
 
-    texts = sampled_real + syn_df["generated_text"].astype(str).tolist()
-    labels = [0] * N_REAL + [1] * len(syn_df)
+    texts = sampled_real + syn_texts
+    labels = [0] * N_REAL + [1] * len(syn_texts)
 
     tr_x, te_x, tr_y, te_y = train_test_split(
         texts, labels, test_size=0.2, random_state=SEED, stratify=labels
@@ -101,7 +117,6 @@ def run(name, csv_path):
 
     trainer.train()
 
-    # Final evaluation with full report
     preds_out = trainer.predict(test_ds)
     probs = torch.softmax(torch.tensor(preds_out.predictions), dim=-1)[:, 1].numpy()
     preds = preds_out.predictions.argmax(axis=-1)
@@ -110,7 +125,6 @@ def run(name, csv_path):
     auc = roc_auc_score(te_y, probs)
     print(f"AUC-ROC: {auc:.4f}")
 
-    # Save per-note predictions for later comparison against XGBoost
     pd.DataFrame({
         "text": te_x,
         "true_label": te_y,
