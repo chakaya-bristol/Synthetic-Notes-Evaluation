@@ -43,8 +43,8 @@ real_texts = [t.strip() for t in real_texts if t.strip()]
 print(f"Loaded {len(real_texts)} real notes")
 
 GENERATORS = {
-    "qwen":       PROC / "synthetic_notes_qwen.csv",
-    "llama":      PROC / "synthetic_notes_llama.csv",
+    "qwen":       PROC / "synthetic_notes_qwen_rewrite.csv",
+    "llama":      PROC / "synthetic_notes_llama_rewrite.csv",
 }
 
 def build_splits(synthetic_csv):
