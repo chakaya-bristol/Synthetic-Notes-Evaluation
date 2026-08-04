@@ -8,4 +8,4 @@ source ~/miniforge3/bin/activate
 conda activate mimic_nlp
 
 cd ~/Synthetic-Notes-Evaluation-1
-python llama_rewrite.py
+python -u llama_rewrite.py
