@@ -27,10 +27,13 @@ SEED = 42
 # Same structure-stripping as the XGBoost pipeline (keep the two in sync) ──
 def strip_structure(text):
     text = str(text)
-    text = text.replace("<PHI>", " ")
+    text = re.sub(r'\*\*', '', text)
+    text = re.sub(r'#{1,6}\s*', '', text)
+    text = re.sub(r'<?PHI\w*', ' ', text)
     header_pattern = (
-        r'(?im)^\s*(Name|Unit No|Admission Date|Discharge Date|Date of Birth|Sex|'
-        r'Service|Attending|Allergies|Followup Instructions|Discharge Disposition):.*$'
+        r'(?im)^\s*(Name|Unit No|Unit Number|Admission Date|Discharge Date|Date of Birth|'
+        r'Sex|Gender|Service|Attending|Attending Physician|Allergies|Allergy|'
+        r'Followup Instructions|Discharge Disposition):.*$'
     )
     text = re.sub(header_pattern, ' ', text)
     text = re.sub(r'\d{1,2}/\d{1,2}/\d{2,4}', ' ', text)
