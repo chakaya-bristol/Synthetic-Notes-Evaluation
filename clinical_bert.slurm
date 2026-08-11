@@ -7,5 +7,5 @@
 source ~/miniforge3/bin/activate
 conda activate mimic_nlp
 
-cd ~/Synthetic-Notes-Evaluation-1
+cd ~/Synthetic-Notes-Evaluation-1 
 python clinical_bert.py
