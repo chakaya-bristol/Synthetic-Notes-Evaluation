@@ -6,8 +6,8 @@
 
 source ~/miniforge3/bin/activate
 conda activate mimic_nlp
-pip install shap -q
+pip install shap matplotlib -q
 
 cd ~/Synthetic-Notes-Evaluation-1
-python -u clinicalbert_q1_global_tokens.py
+#python -u clinicalbert_q1_global_tokens.py
 python -u clinicalbert_q3_local_tokens.py
