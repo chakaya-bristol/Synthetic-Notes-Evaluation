@@ -16,7 +16,7 @@ An explainable AI framework for evaluating where and how synthetic clinical note
 
 Synthetic clinical data has the potential to support healthcare research while reducing reliance on sensitive patient data. However, evaluating synthetic clinical text remains challenging.
 
-Traditional evaluation approaches typically rely on aggregate measures of similarity, utility, or detectability. While these metrics can indicate whether a synthetic dataset resembles real data overall, they provide limited information about **which individual records differ from real clinical notes and why**.
+Traditional evaluation approaches typically rely on aggregate measures of similarity, utility, or detectability. While these metrics can indicate whether a synthetic dataset resembles real data overall, they provide limited information about **which records differ from real clinical notes and why**.
 
 This project investigates whether **Explainable Artificial Intelligence (XAI)** can provide a more informative approach to synthetic clinical-text evaluation.
 
