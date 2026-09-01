@@ -1,6 +1,26 @@
 # Beyond Batch Metrics: Explainable Evaluation of Synthetic Clinical Notes
 
 <p align="center">
+  <a href="https://github.com/chakaya-bristol/Synthetic-Notes-Evaluation">
+    <img src="https://img.shields.io/github/last-commit/chakaya-bristol/Synthetic-Notes-Evaluation?style=for-the-badge" alt="Last Commit">
+  </a>
+  <a href="https://github.com/chakaya-bristol/Synthetic-Notes-Evaluation">
+    <img src="https://img.shields.io/github/repo-size/chakaya-bristol/Synthetic-Notes-Evaluation?style=for-the-badge" alt="Repository Size">
+  </a>
+  <a href="https://github.com/chakaya-bristol/Synthetic-Notes-Evaluation/issues">
+    <img src="https://img.shields.io/github/issues/chakaya-bristol/Synthetic-Notes-Evaluation?style=for-the-badge" alt="Issues">
+  </a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.x-blue?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/Jupyter-Notebook-orange?style=for-the-badge&logo=jupyter&logoColor=white" alt="Jupyter">
+  <img src="https://img.shields.io/badge/XGBoost-Classification-red?style=for-the-badge" alt="XGBoost">
+  <img src="https://img.shields.io/badge/ClinicalBERT-Transformer-purple?style=for-the-badge" alt="ClinicalBERT">
+  <img src="https://img.shields.io/badge/XAI-SHAP%20%7C%20PDP%20%7C%20Counterfactuals-green?style=for-the-badge" alt="Explainable AI">
+</p>
+
+<p align="center">
 An explainable AI framework for evaluating where and how synthetic clinical notes differ from real clinical documentation.
 </p>
 
