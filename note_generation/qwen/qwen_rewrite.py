@@ -76,8 +76,9 @@ for i, real_note in enumerate(to_rewrite):
         print(f"Error at note {i}: {e}")
         results.append({"original_text": real_note, "generated_text": ""})
 
-    if i % 50 == 0:
-        print(f"Rewritten {i}/{N_REWRITE} notes")
+    if i % 100 == 0 and i > 0:
+        pd.DataFrame(results).to_csv(OUTPUT_PATH, index=False)
+        print(f"Rewritten {i}/{N_REWRITE} notes — checkpoint saved", flush=True)
 
 output_df = pd.DataFrame(results)
 output_df = output_df[output_df["generated_text"].str.strip() != ""]
