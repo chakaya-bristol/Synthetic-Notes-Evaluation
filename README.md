@@ -63,7 +63,8 @@ The project consists of four main stages:
 
 The project follows the pipeline below:
 
-```text                        MIMIC-IV
+```text
+                        MIMIC-IV
                            │
                            ▼
                 Real Discharge Summaries
