@@ -96,7 +96,7 @@ The project follows the pipeline below:
                                 ▼
                          XAI Evaluation
                                 │
-       ┌────────────┬────────────┬────────────┬──────────────┐
+       ┌────────────┬────────────┬────────────┬
        ▼            ▼            ▼            ▼
      Global       Feature      Local      Counterfactual
    Importance     Effects   Explanations     Analysis
