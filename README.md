@@ -185,22 +185,6 @@ Synthetic-Notes-Evaluation/
 
 The `preprocessing/` directory contains the code used to prepare MIMIC-IV discharge summaries for generation and classification.
 
-### `preprocess_mimic.ipynb`
-
-Initial exploration and preprocessing of the MIMIC-IV discharge-summary data.
-
-### `preprocess_isambard.py`
-
-Preprocessing pipeline adapted for execution on the Isambard high-performance computing environment.
-
-### `heuristic_tokenize.py`
-
-Provides heuristic tokenisation functionality used during preprocessing.
-
-### `split_clean_dataset.ipynb`
-
-Cleans and partitions the data into the datasets required for downstream training and generation experiments.
-
 Preprocessing also removes or normalises structural information that could provide trivial indicators of whether a record is real or synthetic, allowing subsequent classifiers to focus more strongly on linguistic and stylistic differences.
 
 ---
