@@ -27,10 +27,13 @@ SEED = 42
 # Same structure-stripping as the XGBoost pipeline (keep the two in sync) ──
 def strip_structure(text):
     text = str(text)
-    text = text.replace("<PHI>", " ")
+    text = re.sub(r'\*\*', '', text)
+    text = re.sub(r'#{1,6}\s*', '', text)
+    text = re.sub(r'<?PHI\w*', ' ', text)
     header_pattern = (
-        r'(?im)^\s*(Name|Unit No|Admission Date|Discharge Date|Date of Birth|Sex|'
-        r'Service|Attending|Allergies|Followup Instructions|Discharge Disposition):.*$'
+        r'(?im)^\s*(Name|Unit No|Unit Number|Admission Date|Discharge Date|Date of Birth|'
+        r'Sex|Gender|Service|Attending|Attending Physician|Allergies|Allergy|'
+        r'Followup Instructions|Discharge Disposition):.*$'
     )
     text = re.sub(header_pattern, ' ', text)
     text = re.sub(r'\d{1,2}/\d{1,2}/\d{2,4}', ' ', text)
@@ -89,7 +92,7 @@ def run(name, csv_path):
     test_ds  = Dataset.from_dict({"text": te_x, "label": te_y}).map(tok, batched=True)
 
     args = TrainingArguments(
-        output_dir=str(OUT / f"clinicalbert_{name}"),
+        output_dir=str(OUT / f"clinicalbert_rewrite_{name}"),
         num_train_epochs=3,
         per_device_train_batch_size=8,
         per_device_eval_batch_size=16,
@@ -116,6 +119,11 @@ def run(name, csv_path):
 
     trainer.train()
 
+    save_dir = str(OUT / f"clinicalbert_rewrite_{name}")
+    trainer.save_model(save_dir)
+    tokenizer.save_pretrained(save_dir)
+    print(f"Saved model to {save_dir}", flush=True)
+
     preds_out = trainer.predict(test_ds)
     probs = torch.softmax(torch.tensor(preds_out.predictions), dim=-1)[:, 1].numpy()
     preds = preds_out.predictions.argmax(axis=-1)
@@ -129,12 +137,12 @@ def run(name, csv_path):
         "true_label": te_y,
         "pred_label": preds,
         "prob_synthetic": probs,
-    }).to_csv(OUT / f"clinicalbert_preds_{name}.csv", index=False)
+    }).to_csv(OUT / f"clinicalbert_preds_rewrite_{name}.csv", index=False)
 
     return {"generator": name, "auc": auc,
             "accuracy": float((preds == np.array(te_y)).mean())}
 
 results = [run(name, path) for name, path in GENERATORS.items()]
-pd.DataFrame(results).to_csv(OUT / "clinicalbert_summary.csv", index=False)
+pd.DataFrame(results).to_csv(OUT / "clinicalbert_rewrite_summary.csv", index=False)
 print("\nSummary:")
 print(pd.DataFrame(results))

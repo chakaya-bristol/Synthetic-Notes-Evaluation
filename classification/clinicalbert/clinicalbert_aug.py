@@ -36,7 +36,7 @@ def strip_structure(text):
     text = re.sub(header_pattern, ' ', text)
     text = re.sub(r'\d{1,2}/\d{1,2}/\d{2,4}', ' ', text)
     return text
-
+    
 # Load the pre-built augmented dataset
 df = pd.read_csv(PROC / "augmented_dataset.csv").dropna(subset=["text"])
 print(f"Loaded {len(df)} notes")
